@@ -10,23 +10,20 @@ public class Transicao {
 	private Character lido;
 	private Character escrito;
 	private Integer direcao;
-	private Integer estadoSucessor;
 	private boolean diferenteDe;
 	
-	public Transicao(Character lido, Character escrito, Integer direcao, Integer estadoSucessor){
+	public Transicao(Character lido, Character escrito, Integer direcao){
 		this.lido = lido;
 		this.escrito = escrito;
 		this.direcao = direcao;
-		this.estadoSucessor = estadoSucessor;
 		this.diferenteDe = false;
 	}
 	
-	public Transicao(Character lido, Character escrito, Integer direcao, Integer estadoSucessor, boolean different){
+	public Transicao(Character lido, Character escrito, Integer direcao, boolean diferenteDe){
 		this.lido = lido;
 		this.escrito = escrito;
 		this.direcao = direcao;
-		this.estadoSucessor = estadoSucessor;
-		this.diferenteDe = different;
+		this.diferenteDe = diferenteDe;
 	}
 	
 	public Character getLido() {
@@ -47,21 +44,15 @@ public class Transicao {
 	public void setDirecao(Integer direcao) {
 		this.direcao = direcao;
 	}
-	public Integer getEstadoSucessor() {
-		return estadoSucessor;
-	}
-	public void setEstadoSucessor(Integer estadoSucessor) {
-		this.estadoSucessor = estadoSucessor;
-	}
 	
 	@Override
 	public String toString(){
 		String retorno = "";
 		retorno = retorno.concat(diferenteDe?retorno = "!":"");
 		retorno = retorno.concat(lido == ' '?"□":String.valueOf(lido));
-		retorno = retorno.concat("|");
+		retorno = retorno.concat(";");
 		retorno = retorno.concat(escrito == ' '?"□":String.valueOf(escrito));
-		retorno = retorno.concat("|");
+		retorno = retorno.concat(";");
 		retorno = retorno.concat((direcao == L)?"L":((direcao == S)?"S":"R"));
 		return retorno;
 	}

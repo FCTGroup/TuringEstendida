@@ -9,25 +9,24 @@ public class FuncaoPrograma {
 	
 	private Integer estadoInicial;
 	private ArrayList<Integer> estadosFinais;
-        private ArrayList<ArrayListMultimap<Integer, Transicao>> arrayDeFitas;
+        private ArrayListMultimap<Integer, TransicaoMultipla> listaTransicoes;
 	private ArrayList<Integer> chaveDeEstados;
         private int numeroDeFitas = 0;
         
 	public FuncaoPrograma(){
 		estadoInicial = -1;
 		estadosFinais = new ArrayList<Integer>();
-                arrayDeFitas = new ArrayList<ArrayListMultimap<Integer, Transicao>>();
                 chaveDeEstados = new ArrayList<Integer>();
+                listaTransicoes.create();
+                
 	}
         
         public void setNumFitas(int numeroDeFitas){
             this.numeroDeFitas = numeroDeFitas;
-            for(int i = 0; i < numeroDeFitas; i++)
-                arrayDeFitas.get(i).create();
         }
         
-        public ArrayListMultimap<Integer, Transicao> getTransicoesDaFita(int numeroDaFita){
-            return arrayDeFitas.get(numeroDaFita);
+        public int getNumFitas(){
+            return numeroDeFitas;
         }
 	
 	public ArrayList<Integer> getEstadosFinais(){
@@ -37,19 +36,11 @@ public class FuncaoPrograma {
 	public ArrayList<Integer> getEstados(){
 		return chaveDeEstados;
 	}
-        
-        public Transicao[] getArrayTransicao(Integer estado, Character character) throws InvalidCharacterException{
-            Transicao[] listaTransicao = new Transicao[numeroDeFitas];
-            for(int fitaAtual = 0; fitaAtual < numeroDeFitas; fitaAtual++)
-                listaTransicao[fitaAtual] = getTransicao(estado, character, fitaAtual);
-            return listaTransicao;
-        }
 	
-	public Transicao getTransicao(Integer estado, Character character, Integer fita) throws InvalidCharacterException{
-		List<Transicao> transicoes = arrayDeFitas.get(fita).get(estado);
-		Transicao transicaoRetorno = null;
-		for(Transicao transicao:transicoes)
-			if(transicao.getLido() == character){
+	public TransicaoMultipla getTransicao(Integer estado, ArrayList<Character> charLidoNasFitas) throws InvalidCharacterException{
+		TransicaoMultipla transicaoRetorno = null;
+		for(TransicaoMultipla transicao:listaTransicoes.get(estado))
+			if(transicao.validaEntrada(charLidoNasFitas)){
 				transicaoRetorno = transicao;
 			}
 		if(transicaoRetorno == null)
@@ -78,14 +69,12 @@ public class FuncaoPrograma {
 		return estadosFinais.contains(estado);
 	}
 	
-	public void removeTransicao(Integer estado, Transicao[] transicao){
-            for(int fitaAtual = 0; fitaAtual < numeroDeFitas; fitaAtual++)
-                arrayDeFitas.get(fitaAtual).remove(estado, transicao[fitaAtual]);
+	public void removeTransicao(Integer estado, TransicaoMultipla transicao){
+            listaTransicoes.remove(estado, transicao);
 	}
 	
-	public void addTransicao(Integer estado, Transicao[] transicao){
-            for(int fitaAtual = 0; fitaAtual < numeroDeFitas; fitaAtual++)
-                arrayDeFitas.get(fitaAtual).put(estado, transicao[fitaAtual]);
+	public void addTransicao(Integer estado, TransicaoMultipla transicao){
+            listaTransicoes.put(estado, transicao);
 	}
 
 }
