@@ -62,7 +62,7 @@ public class Transicao {
 		retorno = retorno.concat("|");
 		retorno = retorno.concat(escrito == ' '?"□":String.valueOf(escrito));
 		retorno = retorno.concat("|");
-		retorno = retorno.concat((direcao == -1)?"L":"R");
+		retorno = retorno.concat((direcao == L)?"L":((direcao == S)?"S":"R"));
 		return retorno;
 	}
 	
