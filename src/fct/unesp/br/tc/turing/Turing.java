@@ -15,6 +15,7 @@ public class Turing {
 		this.Programa = programa;
 		estadoAtual = programa.getEstadoInicial();
                 posicaoFita = new Integer[programa.getNumFitas()];
+                arrayDeFitas = ArrayListMultimap.create();
 	}
 	
 	public void reseta(){
@@ -48,11 +49,13 @@ public class Turing {
 		
 	}
 	
-	public void iteraPrograma() throws InvalidCharacterException, InvalidPositionException, FinalNodeException{
+	public int[] iteraPrograma() throws InvalidCharacterException, InvalidPositionException, FinalNodeException{
 		if(Programa.isEstadoFinal(estadoAtual))
 			throw new FinalNodeException();               
                 
                 ArrayList<Character> entrada = new ArrayList<Character>();             
+                
+                int retorno[] = new int[Programa.getNumFitas()];
                 
                 for(int fitaAtual = 0; fitaAtual < posicaoFita.length; fitaAtual++){
                     if(posicaoFita[fitaAtual] == arrayDeFitas.get(fitaAtual).size())
@@ -71,19 +74,28 @@ public class Turing {
                             transicao.getTransicao(fitaAtual).getEscrito());
                     
                     posicaoFita[fitaAtual] += transicao.getTransicao(fitaAtual).getDirecao();
+                    
+                    retorno[fitaAtual] = transicao.getTransicao(fitaAtual).getDirecao();
                 }
                     
 		estadoAtual = transicao.getEstadoSucessor();
+                
+                return retorno;
 	}
 	
 	/*public void salvaPrograma(String url){
 		//escrever em um xml
 	}*/
 	
-	public void carregaFita(String fita, Integer numeroDaFita){
-		arrayDeFitas.get(numeroDaFita).clear();
-		for(char character:fita.toCharArray())
-			arrayDeFitas.put(numeroDaFita, character);
+	public void carregaFita(String fita){
+            try{
+                arrayDeFitas.get(0).clear();
+            }catch(NullPointerException e){
+                
+            }finally{
+                for(char character:fita.toCharArray())
+                    arrayDeFitas.put(0, character);   
+            }
 	}
 	
 	public void imprime(Integer numeroDaFita){

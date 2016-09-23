@@ -52,7 +52,8 @@ public class TransicaoMultipla {
     public String toString(){
         String retorno = "";
         int transicao = 0;
-        retorno += listaTransicoes.get(transicao++).toString();
+        if(listaTransicoes.size() > 0)
+            retorno += listaTransicoes.get(transicao++).toString();
         for(;transicao < listaTransicoes.size(); transicao++)
             retorno += " | "+listaTransicoes.get(transicao).toString();
         return retorno;

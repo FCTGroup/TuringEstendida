@@ -17,9 +17,12 @@ public class FuncaoPrograma {
 		estadoInicial = -1;
 		estadosFinais = new ArrayList<Integer>();
                 chaveDeEstados = new ArrayList<Integer>();
-                listaTransicoes.create();
-                
+                listaTransicoes = ArrayListMultimap.create();
 	}
+        
+        public ArrayListMultimap<Integer, TransicaoMultipla> getListaTransicoes(){
+            return listaTransicoes;
+        }
         
         public void setNumFitas(int numeroDeFitas){
             this.numeroDeFitas = numeroDeFitas;
@@ -42,6 +45,7 @@ public class FuncaoPrograma {
 		for(TransicaoMultipla transicao:listaTransicoes.get(estado))
 			if(transicao.validaEntrada(charLidoNasFitas)){
 				transicaoRetorno = transicao;
+                                break;
 			}
 		if(transicaoRetorno == null)
 			throw new InvalidCharacterException();
