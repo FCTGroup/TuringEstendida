@@ -41,7 +41,7 @@ public class TransicaoMultipla {
         Character charLido;
         for(int transicao = 0;transicao < listaTransicoes.size(); transicao++){
             charLido = listaTransicoes.get(transicao).getLido();
-            if(!charLidoNasFitas.get(transicao).equals(charLido))
+            if(charLidoNasFitas.get(transicao) != charLido)
                 return false;
         }
         return true;

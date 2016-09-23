@@ -1,5 +1,6 @@
 package fct.unesp.br.tc.turing.UI.Step;
 
+import com.google.common.collect.ArrayListMultimap;
 import java.awt.Point;
 import java.util.Hashtable;
 
@@ -32,7 +33,7 @@ public class MainPanel extends JPanel{
                 this.numeroDeFitas = numeroDeFitas;
                 tapePanel = new ArrayList<TapePanel>();
                 for(int i = 0; i < numeroDeFitas; i++)
-                    tapePanel.add(new TapePanel(i==0?fita:"",i==0));
+                    tapePanel.add(new TapePanel(i==0?fita:"", i==0));
                 
                 threadTapePanel = new ArrayList<Thread>();
                 for(int i = 0; i < numeroDeFitas; i++)
@@ -112,4 +113,9 @@ public class MainPanel extends JPanel{
 		tapePanel.get(i).success();
 		nodesPanel.success();
 	}
+
+    void updateFitas(ArrayListMultimap<Integer, Character> arrayDeFitas) {
+        for(int i = 0; i < numeroDeFitas; i++)
+            tapePanel.get(i).updateFita(arrayDeFitas.get(i));
+    }
 }

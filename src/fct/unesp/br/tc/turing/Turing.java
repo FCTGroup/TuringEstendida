@@ -17,11 +17,15 @@ public class Turing {
                 posicaoFita = new Integer[programa.getNumFitas()];
                 arrayDeFitas = ArrayListMultimap.create();
 	}
+        
+        public ArrayListMultimap<Integer, Character> getArrayDeFitas(){
+            return arrayDeFitas;
+        }
 	
 	public void reseta(){
 		estadoAtual = Programa.getEstadoInicial();
                 for(int fitaAtual = 0; fitaAtual < Programa.getNumFitas(); fitaAtual++)
-                    posicaoFita[fitaAtual] = 1;
+                    posicaoFita[fitaAtual] = 0;
 	}
 	
 	public Integer getEstadoAtual(){
@@ -60,9 +64,11 @@ public class Turing {
                 for(int fitaAtual = 0; fitaAtual < posicaoFita.length; fitaAtual++){
                     if(posicaoFita[fitaAtual] == arrayDeFitas.get(fitaAtual).size())
                         arrayDeFitas.put(fitaAtual, ' ');
-                    else if(posicaoFita[fitaAtual] == 0)
-                        arrayDeFitas.get(fitaAtual).add(0, ' ');
-                    entrada.add(arrayDeFitas.get(fitaAtual).get(posicaoFita[fitaAtual]));
+                    try{
+                        entrada.add(arrayDeFitas.get(fitaAtual).get(posicaoFita[fitaAtual]));
+                    }catch(IndexOutOfBoundsException e){
+                        entrada.add(' ');
+                    }
                 }
                 
                 TransicaoMultipla transicao = Programa.getTransicao(estadoAtual, entrada);

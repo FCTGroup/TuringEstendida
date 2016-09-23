@@ -10,13 +10,11 @@ public class FuncaoPrograma {
 	private Integer estadoInicial;
 	private ArrayList<Integer> estadosFinais;
         private ArrayListMultimap<Integer, TransicaoMultipla> listaTransicoes;
-	private ArrayList<Integer> chaveDeEstados;
         private int numeroDeFitas = 0;
         
 	public FuncaoPrograma(){
 		estadoInicial = -1;
 		estadosFinais = new ArrayList<Integer>();
-                chaveDeEstados = new ArrayList<Integer>();
                 listaTransicoes = ArrayListMultimap.create();
 	}
         
@@ -36,9 +34,7 @@ public class FuncaoPrograma {
 		return estadosFinais;
 	}
 	
-	public ArrayList<Integer> getEstados(){
-		return chaveDeEstados;
-	}
+	
 	
 	public TransicaoMultipla getTransicao(Integer estado, ArrayList<Character> charLidoNasFitas) throws InvalidCharacterException{
 		TransicaoMultipla transicaoRetorno = null;

@@ -10,6 +10,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import javax.swing.JPanel;
 
 public class TapePanel extends JPanel implements Runnable, ComponentListener, MouseListener{
@@ -24,11 +25,11 @@ public class TapePanel extends JPanel implements Runnable, ComponentListener, Mo
 	private int selectedPos = -1;
 	private int count;
 	private Rectangle button;
-	private boolean primeira;
+        private boolean fitaEntrada;
         
-	public TapePanel(String fita, boolean primeira){
+	public TapePanel(String fita, boolean fitaEntrada){
 		super();
-                this.primeira = primeira;
+                this.fitaEntrada = fitaEntrada;
 		init();
 		initComponents();
 		setVisible(true);
@@ -47,9 +48,9 @@ public class TapePanel extends JPanel implements Runnable, ComponentListener, Mo
 		setMinimumSize(new Dimension(500, 30));
 		setPreferredSize(new Dimension(500,30));
 		addComponentListener(this);
-		pos = 1;
+		pos = 0;
 		button = new Rectangle(5, 5, 20, 20);
-                if(primeira)
+                if(fitaEntrada)
                     addMouseListener(this);
 	}
 	
@@ -76,7 +77,11 @@ public class TapePanel extends JPanel implements Runnable, ComponentListener, Mo
 		
 		count = pos;
 		for(int i = selectedPos; i < bfImage.getWidth()-20 && count < fita.length();i+=20){
+                    try{
 			graphics.drawString(String.valueOf(fita.charAt(count)), 5 + 6 + i, 5 + 3 + 12);
+                    }catch(Exception e){
+                        graphics.drawString(" ", 5 + 6 + i, 5 + 3 + 12);
+                    }
 			count++;
 		}
 		
@@ -92,12 +97,12 @@ public class TapePanel extends JPanel implements Runnable, ComponentListener, Mo
 			count--;
 		}
 		
-                if(primeira){
-                 
+                if(fitaEntrada){ 
                     graphics.setColor(Color.GREEN);
                     graphics.fillPolygon(new int[]{6+5,6+5,15+5}, new int[]{6+5,16+5,11+5}, 3);
                     
                 }
+                    
 		
 		getGraphics().drawImage(bfImage, 0, 0, null);
 		
@@ -115,8 +120,10 @@ public class TapePanel extends JPanel implements Runnable, ComponentListener, Mo
 		backgroundColor = Color.GREEN;
 	}
 	
-	public void updateFita(String fita){
-		this.fita = fita;
+	public void updateFita(List<Character> fita){
+            this.fita = "";
+            for(Character ch:fita)
+                this.fita += ch;
 	}
 
 	@Override

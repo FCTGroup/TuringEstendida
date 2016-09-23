@@ -41,6 +41,7 @@ public class Frame extends JFrame{
 	
 	private void initComponents(Hashtable<Integer, Point> positions, String fita, FuncaoPrograma p){
 		turing = new Turing(p);
+                turing.reseta();
 		turing.carregaFita(fita);
 		mainPanel = new MainPanel(positions, fita, numeroDeFitas);
 	}
@@ -52,6 +53,7 @@ public class Frame extends JFrame{
 	protected void nextStep(){
 		try {
 			int movement[] = turing.iteraPrograma();
+                        mainPanel.updateFitas(turing.getArrayDeFitas());
 			mainPanel.moveTape(movement);
 		} catch (InvalidCharacterException | InvalidPositionException e) {
 			mainPanel.error();

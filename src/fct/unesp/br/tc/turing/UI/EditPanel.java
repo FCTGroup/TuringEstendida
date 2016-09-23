@@ -422,6 +422,7 @@ public class EditPanel extends JPanel implements Runnable, MouseMotionListener, 
                 }
 		Hashtable<Integer,Point> positions = new Hashtable<Integer,Point>();
 		FuncaoPrograma p = new FuncaoPrograma();
+                p.setNumFitas(((Frame)getTopLevelAncestor()).getNumFitas());
 		for(Node node:nodes){
 			positions.put(node.getId(), new Point(node.getX(), node.getY()));
 			if(node.isFinal())
@@ -432,14 +433,13 @@ public class EditPanel extends JPanel implements Runnable, MouseMotionListener, 
 		TransicaoMultipla transicao;
                 Transicao transicaoFita;
 		for(Connection connection:connections){
-                    int numFita = 0;
 			for(Action action:connection.getActions()){
                                 transicao = new TransicaoMultipla(connection.getDest().getId());
                                 for(int fitaAtual = 0; fitaAtual < p.getNumFitas(); fitaAtual++){
-                                    transicaoFita = new Transicao(action.getRead(numFita), 
-					action.getWriten(numFita), 
-					action.getMovement(numFita) == 'L'?-1:(action.getMovement(numFita) == 'S'?0:1), 
-                                        action.getModifier(numFita) == Action.EQUALS?false:true);
+                                    transicaoFita = new Transicao(action.getRead(fitaAtual), 
+					action.getWriten(fitaAtual), 
+					action.getMovement(fitaAtual) == 'L'?-1:(action.getMovement(fitaAtual) == 'S'?0:1), 
+                                        action.getModifier(fitaAtual) == Action.EQUALS?false:true);
                                     transicao.add(transicaoFita);
                                 }
                                 p.addTransicao(connection.getSource().getId(), transicao);
@@ -448,6 +448,7 @@ public class EditPanel extends JPanel implements Runnable, MouseMotionListener, 
 		final String finalFita = fita;
 		final Hashtable<Integer,Point> finalPositions = positions;
 		final FuncaoPrograma finalP = p;
+                
 		new Thread(){
 			@Override
 			public void run(){
@@ -457,8 +458,17 @@ public class EditPanel extends JPanel implements Runnable, MouseMotionListener, 
 	}
 
 	public void executeMultiples() {
+		String fita = "";
+                try{
+                    fita = JOptionPane.showInputDialog("");
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+		Hashtable<Integer,Point> positions = new Hashtable<Integer,Point>();
 		FuncaoPrograma p = new FuncaoPrograma();
+                p.setNumFitas(((Frame)getTopLevelAncestor()).getNumFitas());
 		for(Node node:nodes){
+			positions.put(node.getId(), new Point(node.getX(), node.getY()));
 			if(node.isFinal())
 				p.addEstadoFinal(node.getId());
 			if(node.isInicial())
@@ -467,14 +477,13 @@ public class EditPanel extends JPanel implements Runnable, MouseMotionListener, 
 		TransicaoMultipla transicao;
                 Transicao transicaoFita;
 		for(Connection connection:connections){
-                    int numFita = 0;
 			for(Action action:connection.getActions()){
                                 transicao = new TransicaoMultipla(connection.getDest().getId());
                                 for(int fitaAtual = 0; fitaAtual < p.getNumFitas(); fitaAtual++){
-                                    transicaoFita = new Transicao(action.getRead(numFita), 
-					action.getWriten(numFita), 
-					action.getMovement(numFita) == 'L'?-1:(action.getMovement(numFita) == 'S'?0:1), 
-                                        action.getModifier(numFita) == Action.EQUALS?false:true);
+                                    transicaoFita = new Transicao(action.getRead(fitaAtual), 
+					action.getWriten(fitaAtual), 
+					action.getMovement(fitaAtual) == 'L'?-1:(action.getMovement(fitaAtual) == 'S'?0:1), 
+                                        action.getModifier(fitaAtual) == Action.EQUALS?false:true);
                                     transicao.add(transicaoFita);
                                 }
                                 p.addTransicao(connection.getSource().getId(), transicao);
